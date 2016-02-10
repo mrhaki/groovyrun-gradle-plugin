@@ -1,1 +1,0 @@
-# groovyrun-gradle-plugin
