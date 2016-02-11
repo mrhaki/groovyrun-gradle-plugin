@@ -29,11 +29,21 @@ buildscript {
 apply plugin: 'com.mrhaki.groovyrun'
 ----
 
+Or using the newer `plugins` definition block:
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins {
+    id 'com.mrhaki.groovyrun'
+}
+----
+
 == Tasks
 
 The plugin adds the task `runGroovyScript` and `runHttpServer` to our build. 
 
-.Tasks
 |===
 | Task name | Type | Description
 
@@ -87,6 +97,42 @@ baseDir:: `File` object representing the base directory to serve files
 The plugin also adds the `GroovyRunExtension` to our project under the key `groovyRun`. 
 We can set the property `groovyVersion` to the Groovy version we want to use to run
 our Groovy scripts. If we don't set this property the Groovy version that comes with Gradle is used.
+
+The plugin also adds a dependency configuration with the name `groovyRun`. 
+We can use this configuration if we want to add dependencies to the classpath of `GroovyRun` task.
+
+== Samples
+
+Here are some samples for using the tasks with the plugin.
+
+=== Evaluate Groovy expressions
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun'
+}
+
+runGrooyScript {
+    evaluate "println 'Hello Gradle'"
+}
+----
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+====
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+Hello Gradle
+
+BUILD SUCCESSFUL
+
+Total time: 0.868 secs
+====
 
 
 This plugin is made available under the Apache 2.0 license, I hope you find value and have fun with it!
