@@ -25,7 +25,7 @@ class GroovyRun extends JavaExec {
         main = MAIN_CLASS
         classpath = project.configurations[GroovyRunPlugin.CONFIGURATION_NAME]
     }
-    
+
     void evaluate(final String script) {
         setEvaluate(script)
     }
@@ -40,7 +40,14 @@ class GroovyRun extends JavaExec {
     
     void setListenerPort(final Integer port) {
         this.listenerPort = port
+        
+        // Listener argument must be first.
+        final List<String> oldArgs = args
+        args = []
         args("-l").args(port.toString())
+        oldArgs?.each { arg ->
+            args(arg)
+        }
     }
     
     void file(final File scriptFile) {

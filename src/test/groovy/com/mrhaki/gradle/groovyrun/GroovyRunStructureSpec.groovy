@@ -42,4 +42,40 @@ class GroovyRunStructureSpec extends Specification {
         expect:
         task.args == ['-l', '8100']
     }
+    
+    def "task must set listener port arguments before evaluate arguments if evaluate is set first"() {
+        given:
+        task.evaluate "println 'Hello Gradle'"
+        task.listenerPort 9000
+        
+        expect:
+        task.args == ['-l', '9000', '-e', "println 'Hello Gradle'"]
+    }
+
+    def "task must set listener port arguments before evaluate arguments if listener port is set first"() {
+        given:
+        task.listenerPort 9000
+        task.evaluate "println 'Hello Gradle'"
+
+        expect:
+        task.args == ['-l', '9000', '-e', "println 'Hello Gradle'"]
+    }
+    
+    def "task must set evaluate argument if evaluate is set as property"() {
+        given:
+        task.evaluate = "println 'test'"
+
+        expect:
+        task.args == ['-e', "println 'test'"]
+
+    }
+
+    def "task must set evaluate argument if evaluate is set as method"() {
+        given:
+        task.evaluate "println 'test'"
+
+        expect:
+        task.args == ['-e', "println 'test'"]
+    }
+
 }
