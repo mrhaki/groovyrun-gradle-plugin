@@ -36,7 +36,7 @@ Or using the newer `plugins` definition block:
 .build.gradle
 ----
 plugins {
-    id 'com.mrhaki.groovyrun'
+    id 'com.mrhaki.groovyrun' version '{version-published}'
 }
 ----
 
@@ -112,7 +112,7 @@ Here are some samples for using the tasks with the plugin.
 .build.gradle
 ----
 plugins { 
-    id 'com.mrhaki.groovyrun'
+    id 'com.mrhaki.groovyrun' version '{version-published}'
 }
 
 runGrooyScript {
@@ -134,6 +134,122 @@ BUILD SUCCESSFUL
 Total time: 0.868 secs
 ----
 
+=== Run Groovy script file
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.src/main/resources/hello.groovy
+----
+println 'Hello Gradle'
+----
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runGrooyScript {
+    file file('src/main/resources/print.groovy')
+}
+----
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+----
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+Hello Gradle
+
+BUILD SUCCESSFUL
+
+Total time: 0.868 secs
+----
+
+=== Start in listening mode
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runGrooyScript {
+    listenerPort 9000
+    evaluate "println 'You say: ' + line"
+}
+----
+
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+----
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+groovy is listening on port 9000
+> Building 0% > :runGroovyScript
+----
+
+In another terminal we can open a telnet connection to port 9000:
+
+[cmdline]
+----
+$ telnet localhost 9000
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+Groovy is gr8!
+You say: Groovy is gr8!
+----
+
+=== Simple HTTP Server
+
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.src/main/resources/index.html
+----
+<!doctype>
+<html>
+<head><title>Groovy is gr8</title></head>
+<body><h1>Hello Gradle</h1></body>
+</html>
+----
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runHttpServer {
+    listenerPort = 9000
+    baseDir = file('src/main/resources'
+}
+----
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+----
+$ ./gradlew runHttpServer
+
+:runHttpServer
+groovy is listening on port 9000
+> Building 0% > :runHttpServer
+----
+
+In our web browser we can now open the page http://localhost:9000/index.html.
 
 This plugin is made available under the Apache 2.0 license, I hope you find value and have fun with it!
 http://www.apache.org/licenses/LICENSE-2.0
