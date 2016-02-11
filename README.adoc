@@ -1,5 +1,5 @@
 = Groovyrun Gradle plugin
-:github-branch: master
+:github-branch: develop
 :version-published: 1.0.1.RELEASE
 :project-name: groovyrun-gradle-plugin
 
