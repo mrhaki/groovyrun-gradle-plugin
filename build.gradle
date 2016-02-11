@@ -1,14 +1,11 @@
+apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
-version = '0.1.DEVELOP'
+version = '0.2.DEVELOP'
 group = 'com.mrhaki.gradle.groovyrun'
 
 repositories {
     jcenter()
-}
-
-dependencies {
-    compile gradleApi()
 }
