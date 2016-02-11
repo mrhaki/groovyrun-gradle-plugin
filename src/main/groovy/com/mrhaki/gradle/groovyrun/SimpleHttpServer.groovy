@@ -19,7 +19,7 @@ class SimpleHttpServer extends GroovyRun {
         // the following code is executed once.
         if (init) {
             headers = [:]
-            binaryTypes = ["gif","jpg","png", "ttf", "otf", "woff", "woff2", "eot", "sfnt"]
+            binaryTypes = ["gif", "jpg", "png", "ttf", "otf", "woff", "woff2", "eot", "sfnt"]
             mimeTypes = [
                 "css"  : "text/css",
                 "gif"  : "image/gif",

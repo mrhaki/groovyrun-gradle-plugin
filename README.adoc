@@ -1,2 +1,93 @@
-# Groovy Run Gradle plugin
+= Groovyrun Gradle plugin
+:github-branch: development
+:version-published: 1.0.RELEASE
+:project-name: groovyrun-gradle-plugin
 
+image:https://travis-ci.org/mrhaki/groovyrun-gradle-plugin.svg?branch={github-branch}["Build Status", link="https://travis-ci.org/mrhaki/groovyrun-gradle-plugin"]
+image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
+
+This plugin is used to run Groovy commands like with the Groovy command line.
+
+== Installation
+
+Use the following snippet inside a Gradle build file:
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.mrhaki.gradle:{project-name}:{version-published}'
+    }
+}
+
+apply plugin: 'com.mrhaki.groovyrun'
+----
+
+== Tasks
+
+The plugin adds the task `runGroovyScript` and `runHttpServer` to our build. 
+
+.Tasks
+|===
+| Task name | Type | Description
+
+| `runGroovyScript`
+| `GroovyRun`
+| Execute Groovy code like when using the Groovy command line tool.
+
+| `runHttpServer`
+| `SimpleHttpServer`
+| Run a simple HTTP server written in Groovy.
+
+|===
+
+
+=== GroovyRun
+
+The task has properties
+and methods that can be used to evaluate a Groovy script file, String value or start Groovy in listening mode.
+The `runGroovyScript` task is of type
+`GroovyRun` that extends the Gradle `JavaExec` task. So all properties and methods from
+the `JavaExec` task can be used with the `runGroovyScript` task.
+ 
+.Properties
+[horizontal]
+evaluate:: a String value that is a Groovy script to be executed.
+file:: a `File` containing a Groovy script to be executed.
+listenerPort:: `Integer` value to set the port Groovy listens on.
+
+.Methods
+[horizontal]
+evaluate:: a String value that is a Groovy script to be executed.
+file:: a `File` containing a Groovy script to be executed.
+listenerPort:: `Integer` value to set the port Groovy listens on.
+
+=== SimpleHttpServer
+
+We can set a base directory for the HTTP server to serve files from. We can also set the listener port.
+The task extends the `GroovyRun` task so all properties and methods from the `GroovyRun` task apply for this task.
+
+.Properties
+[horizontal]
+baseDir:: `File` object representing the base directory to serve files 
+
+.Methods
+[horizontal]
+baseDir:: `File` object representing the base directory to serve files 
+
+
+== Configuration
+
+The plugin also adds the `GroovyRunExtension` to our project under the key `groovyRun`. 
+We can set the property `groovyVersion` to the Groovy version we want to use to run
+our Groovy scripts. If we don't set this property the Groovy version that comes with Gradle is used.
+
+
+This plugin is made available under the Apache 2.0 license, I hope you find value and have fun with it!
+http://www.apache.org/licenses/LICENSE-2.0
