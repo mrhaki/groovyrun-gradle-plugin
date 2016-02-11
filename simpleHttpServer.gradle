@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.mrhaki.gradle:groovyrun-gradle-plugin:1.0.RELEASE"
+        classpath "com.mrhaki.gradle:groovyrun-gradle-plugin:1.0.0.RELEASE"
     }
 }
 
