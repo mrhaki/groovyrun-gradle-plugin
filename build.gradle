@@ -9,13 +9,13 @@ buildscript {
     }
 }
 
-apply plugin: 'com.gConradle.plugin-publish'
+apply plugin: 'com.gradle.plugin-publish'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
-version = '1.0.0.RELEASE'
+version = '1.0.1.RELEASE'
 group = 'com.mrhaki.gradle.groovyrun'
 
 repositories {
