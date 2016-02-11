@@ -21,12 +21,19 @@ class SimpleHttpServer extends GroovyRun {
             headers = [:]
             binaryTypes = ["gif","jpg","png"]
             mimeTypes = [
-                "css" : "text/css",
-                "gif" : "image/gif",
-                "htm" : "text/html",
-                "html": "text/html",
-                "jpg" : "image/jpeg",
-                "png" : "image/png"
+                "css"  : "text/css",
+                "gif"  : "image/gif",
+                "htm"  : "text/html",
+                "html" : "text/html",
+                "jpg"  : "image/jpeg",
+                "png"  : "image/png",
+                "svg"  : "image/svg+xml",
+                "ttf"  : "application/x-font-ttf",
+                "otf"  : "application/x-font-opentype",
+                "woff" : "application/font-woff",
+                "woff2": "application/font-woff2",
+                "eot"  : "application/vnd.ms-fontobject",
+                "sfnt" : "application/font-sfnt" 
             ]
             baseDir = System.properties['baseDir'] ?: '.\'
         }
