@@ -1,11 +1,13 @@
 package com.mrhaki.gradle.groovyrun
 
+import groovy.transform.CompileStatic
 import org.gradle.api.tasks.JavaExec
 
 /**
  * Gradle task to run Groovy code using
  * Groovy's command line interpreter.
  */
+@CompileStatic
 class GroovyRun extends JavaExec {
 
     /**

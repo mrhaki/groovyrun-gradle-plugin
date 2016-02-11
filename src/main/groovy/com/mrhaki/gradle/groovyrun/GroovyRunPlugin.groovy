@@ -1,6 +1,8 @@
 package com.mrhaki.gradle.groovyrun
 
+import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
+import groovy.transform.TypeCheckingMode
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -9,12 +11,13 @@ import org.gradle.api.artifacts.Configuration
  * Gradle plugin to run Groovy code like with
  * Groovy's command line.
  */
+@CompileStatic
 class GroovyRunPlugin implements Plugin<Project> {
 
     /**
      * Name for dependency configuration.
      */
-    @PackageScope static final String CONFIGURATION_NAME = 'groovyRun'
+    public static final String CONFIGURATION_NAME = 'groovyRun'
 
     /**
      * Task name for running Groovy code.
@@ -57,6 +60,7 @@ class GroovyRunPlugin implements Plugin<Project> {
      * the Groovy version that comes with Gradle is used with the dependency
      * <code>localGroovy()</code>.
      */
+    @CompileStatic(value = TypeCheckingMode.SKIP)
     private void configureConfiguration() {
         final Configuration configuration = 
                 project.configurations.create(CONFIGURATION_NAME) {

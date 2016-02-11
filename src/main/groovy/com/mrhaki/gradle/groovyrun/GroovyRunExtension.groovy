@@ -1,8 +1,11 @@
 package com.mrhaki.gradle.groovyrun
 
+import groovy.transform.CompileStatic
+
 /**
  * Extension for the Gradle groovyrun plugin.
  */
+@CompileStatic
 class GroovyRunExtension {
 
     /**

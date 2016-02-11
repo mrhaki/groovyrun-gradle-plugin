@@ -1,5 +1,8 @@
 package com.mrhaki.gradle.groovyrun
 
+import groovy.transform.CompileStatic
+
+@CompileStatic
 class SimpleHttpServer extends GroovyRun {
     
     private static final Integer DEFAULT_PORT = 8080
