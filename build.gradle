@@ -1,10 +1,22 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.3"
+    }
+}
+
+apply plugin: 'com.gConradle.plugin-publish'
 apply plugin: 'java-gradle-plugin'
 apply plugin: 'groovy'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
-version = '0.3.DEVELOP'
-group = 'com.mrhaki.gradle'
+version = '1.0.RELEASE'
+group = 'com.mrhaki.gradle.groovyrun'
 
 repositories {
     jcenter()
@@ -34,4 +46,22 @@ task createClasspathManifest {
 // Add the classpath file to the test runtime classpath
 dependencies {
     testRuntime files(createClasspathManifest)
+}
+
+pluginBundle {
+    website = 'https://github.com/mrhaki/groovyrun-gradle-plugin'
+    vcsUrl = 'https://github.com/mrhaki/groovyrun-gradle-plugin'
+
+    description = 'Plugin for running Groovy scripts with same options as from the Groovy command line'
+    tags = ['groovy', 'script', 'http', 'web', 'server']
+
+    plugins {
+
+        // first plugin
+        groovyrunPlugin {
+            id = 'com.mrhaki.groovyrun'
+            displayName = 'Gradle Groovyrun plugin'
+        }
+
+    }
 }
