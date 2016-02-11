@@ -2,10 +2,20 @@ package com.mrhaki.gradle.groovyrun
 
 import org.gradle.api.tasks.JavaExec
 
+/**
+ * Gradle task to run Groovy code using
+ * Groovy's command line interpreter.
+ */
 class GroovyRun extends JavaExec {
-    
-    Integer listenerPort
-    
+
+    /**
+     * Port Groovy should listen on for scripts.
+     */
+    protected Integer listenerPort
+
+    /**
+     * Class name for Groovy's command line.
+     */
     private static final String MAIN_CLASS = 'groovy.ui.GroovyMain'
     
     GroovyRun() {
@@ -15,27 +25,27 @@ class GroovyRun extends JavaExec {
     }
     
     void evaluate(final String script) {
-        args("-e").args(script)
+        setEvaluate(script)
     }
     
     void setEvaluate(final String script) {
-        evaluate(script)
+        args("-e").args(script)
     }
     
     void listenerPort(final Integer port) {
+        setListenerPort(port)
+    }
+    
+    void setListenerPort(final Integer port) {
         this.listenerPort = port
         args("-l").args(port.toString())
     }
     
-    void setListenerPort(final Integer port) {
-        listenerPort(port)
-    }
-    
     void file(final File scriptFile) {
-        args(scriptFile.absolutePath)
+        setFile(scriptFile)
     }
 
     void setFile(final File scriptFile) {
-        file(scriptFile)
+        args(scriptFile.absolutePath)
     }
 }
