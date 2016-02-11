@@ -1,0 +1,251 @@
+= Groovyrun Gradle plugin
+:github-branch: master
+:version-published: 1.0.RELEASE
+:project-name: groovyrun-gradle-plugin
+
+image:https://travis-ci.org/mrhaki/groovyrun-gradle-plugin.svg?branch={github-branch}["Build Status", link="https://travis-ci.org/mrhaki/groovyrun-gradle-plugin"]
+image:http://img.shields.io/badge/license-ASF2-blue.svg["Apache License 2", link="http://www.apache.org/licenses/LICENSE-2.0.txt"]
+
+This plugin is used to run Groovy commands like with the Groovy command line.
+
+== Installation
+
+Use the following snippet inside a Gradle build file:
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.mrhaki.gradle:{project-name}:{version-published}'
+    }
+}
+
+apply plugin: 'com.mrhaki.groovyrun'
+----
+
+Or using the newer `plugins` definition block:
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins {
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+----
+
+== Tasks
+
+The plugin adds the task `runGroovyScript` and `runHttpServer` to our build. 
+
+|===
+| Task name | Type | Description
+
+| `runGroovyScript`
+| `GroovyRun`
+| Execute Groovy code like when using the Groovy command line tool.
+
+| `runHttpServer`
+| `SimpleHttpServer`
+| Run a simple HTTP server written in Groovy.
+
+|===
+
+
+=== GroovyRun
+
+The task has properties
+and methods that can be used to evaluate a Groovy script file, String value or start Groovy in listening mode.
+The `runGroovyScript` task is of type
+`GroovyRun` that extends the Gradle `JavaExec` task. So all properties and methods from
+the `JavaExec` task can be used with the `runGroovyScript` task.
+ 
+.Properties
+[horizontal]
+evaluate:: a String value that is a Groovy script to be executed.
+file:: a `File` containing a Groovy script to be executed.
+listenerPort:: `Integer` value to set the port Groovy listens on.
+
+.Methods
+[horizontal]
+evaluate:: a String value that is a Groovy script to be executed.
+file:: a `File` containing a Groovy script to be executed.
+listenerPort:: `Integer` value to set the port Groovy listens on.
+
+=== SimpleHttpServer
+
+We can set a base directory for the HTTP server to serve files from. We can also set the listener port.
+The task extends the `GroovyRun` task so all properties and methods from the `GroovyRun` task apply for this task.
+
+.Properties
+[horizontal]
+baseDir:: `File` object representing the base directory to serve files 
+
+.Methods
+[horizontal]
+baseDir:: `File` object representing the base directory to serve files 
+
+
+== Configuration
+
+The plugin also adds the `GroovyRunExtension` to our project under the key `groovyRun`. 
+We can set the property `groovyVersion` to the Groovy version we want to use to run
+our Groovy scripts. If we don't set this property the Groovy version that comes with Gradle is used.
+
+The plugin also adds a dependency configuration with the name `groovyRun`. 
+We can use this configuration if we want to add dependencies to the classpath of `GroovyRun` task.
+
+== Samples
+
+Here are some samples for using the tasks with the plugin.
+
+=== Evaluate Groovy expressions
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runGrooyScript {
+    evaluate "println 'Hello Gradle'"
+}
+----
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+----
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+Hello Gradle
+
+BUILD SUCCESSFUL
+
+Total time: 0.868 secs
+----
+
+=== Run Groovy script file
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.src/main/resources/hello.groovy
+----
+println 'Hello Gradle'
+----
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runGrooyScript {
+    file file('src/main/resources/print.groovy')
+}
+----
+
+When we execute the task the String value _Hello Gradle_ is printed to system output stream:
+
+[cmdline]
+----
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+Hello Gradle
+
+BUILD SUCCESSFUL
+
+Total time: 0.868 secs
+----
+
+=== Start in listening mode
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runGrooyScript {
+    listenerPort 9000
+    evaluate "println 'You say: ' + line"
+}
+----
+
+
+[cmdline]
+----
+$ ./gradlew runGroovyScript
+
+:runGroovyScript
+groovy is listening on port 9000
+> Building 0% > :runGroovyScript
+----
+
+In another terminal we can open a telnet connection to port 9000:
+
+[cmdline]
+----
+$ telnet localhost 9000
+Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+Groovy is gr8!
+You say: Groovy is gr8!
+----
+
+=== Simple HTTP Server
+
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.src/main/resources/index.html
+----
+<!doctype>
+<html>
+<head><title>Groovy is gr8</title></head>
+<body><h1>Hello Gradle</h1></body>
+</html>
+----
+
+[source,groovy]
+[subs="attributes,specialcharacters"]
+.build.gradle
+----
+plugins { 
+    id 'com.mrhaki.groovyrun' version '{version-published}'
+}
+
+runHttpServer {
+    listenerPort = 9000
+    baseDir = file('src/main/resources')
+}
+----
+
+[cmdline]
+----
+$ ./gradlew runHttpServer
+
+:runHttpServer
+groovy is listening on port 9000
+> Building 0% > :runHttpServer
+----
+
+In our web browser we can now open the page http://localhost:9000/index.html.
+
+This plugin is made available under the Apache 2.0 license, I hope you find value and have fun with it!
+http://www.apache.org/licenses/LICENSE-2.0

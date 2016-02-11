@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.gradle.publish:plugin-publish-plugin:0.9.3"
+    }
+}
+
+apply plugin: 'com.gConradle.plugin-publish'
+apply plugin: 'java-gradle-plugin'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+version = '1.0.RELEASE'
+group = 'com.mrhaki.gradle.groovyrun'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile("org.spockframework:spock-core:1.0-groovy-2.4") {
+        exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+    }
+    testCompile gradleTestKit()
+    testCompile "org.springframework:spring-core:4.2.3.RELEASE"
+}
+
+// Write the plugin's classpath to a file to share with the tests
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+// Add the classpath file to the test runtime classpath
+dependencies {
+    testRuntime files(createClasspathManifest)
+}
+
+pluginBundle {
+    website = 'https://github.com/mrhaki/groovyrun-gradle-plugin'
+    vcsUrl = 'https://github.com/mrhaki/groovyrun-gradle-plugin'
+
+    description = 'Plugin for running Groovy scripts with same options as from the Groovy command line'
+    tags = ['groovy', 'script', 'http', 'web', 'server']
+
+    plugins {
+
+        // first plugin
+        groovyrunPlugin {
+            id = 'com.mrhaki.groovyrun'
+            displayName = 'Gradle Groovyrun plugin'
+        }
+
+    }
+}

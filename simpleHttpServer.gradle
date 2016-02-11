@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+
+    dependencies {
+        classpath "com.mrhaki.gradle:groovyrun-gradle-plugin:1.0.RELEASE"
+    }
+}
+
+apply plugin: 'com.mrhaki.groovyrun'
+
+repositories {
+    jcenter()
+}
+
+runHttpServer {
+    listenerPort = 8001
+    baseDir = file('src/test/resources')
+}
+
+defaultTasks 'runHttpServer'
