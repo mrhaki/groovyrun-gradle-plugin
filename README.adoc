@@ -187,8 +187,6 @@ runGrooyScript {
 ----
 
 
-When we execute the task the String value _Hello Gradle_ is printed to system output stream:
-
 [cmdline]
 ----
 $ ./gradlew runGroovyScript
@@ -234,11 +232,9 @@ plugins {
 
 runHttpServer {
     listenerPort = 9000
-    baseDir = file('src/main/resources'
+    baseDir = file('src/main/resources')
 }
 ----
-
-When we execute the task the String value _Hello Gradle_ is printed to system output stream:
 
 [cmdline]
 ----
