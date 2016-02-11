@@ -31,5 +31,10 @@ class PluginStructureSpec extends Specification {
         expect:
         project.configurations.groovyRun
     }
+    
+    def "'groovyRun' configuration must have a single dependency"() {
+        expect:
+        project.configurations.groovyRun.files.size() == 1
+    }
 
 }
