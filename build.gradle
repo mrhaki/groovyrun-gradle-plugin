@@ -14,4 +14,24 @@ dependencies {
     testCompile("org.spockframework:spock-core:1.0-groovy-2.4") {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
+    testCompile gradleTestKit()
+    testCompile "org.springframework:spring-core:4.2.3.RELEASE"
+}
+
+// Write the plugin's classpath to a file to share with the tests
+task createClasspathManifest {
+    def outputDir = file("$buildDir/$name")
+
+    inputs.files sourceSets.main.runtimeClasspath
+    outputs.dir outputDir
+
+    doLast {
+        outputDir.mkdirs()
+        file("$outputDir/plugin-classpath.txt").text = sourceSets.main.runtimeClasspath.join("\n")
+    }
+}
+
+// Add the classpath file to the test runtime classpath
+dependencies {
+    testRuntime files(createClasspathManifest)
 }
