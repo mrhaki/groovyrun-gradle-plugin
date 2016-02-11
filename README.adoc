@@ -1,6 +1,6 @@
 = Groovyrun Gradle plugin
 :github-branch: master
-:version-published: 1.0.RELEASE
+:version-published: 1.0.1.RELEASE
 :project-name: groovyrun-gradle-plugin
 
 image:https://travis-ci.org/mrhaki/groovyrun-gradle-plugin.svg?branch={github-branch}["Build Status", link="https://travis-ci.org/mrhaki/groovyrun-gradle-plugin"]
