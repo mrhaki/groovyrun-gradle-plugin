@@ -123,7 +123,7 @@ runGrooyScript {
 When we execute the task the String value _Hello Gradle_ is printed to system output stream:
 
 [cmdline]
-====
+----
 $ ./gradlew runGroovyScript
 
 :runGroovyScript
@@ -132,7 +132,7 @@ Hello Gradle
 BUILD SUCCESSFUL
 
 Total time: 0.868 secs
-====
+----
 
 
 This plugin is made available under the Apache 2.0 license, I hope you find value and have fun with it!
