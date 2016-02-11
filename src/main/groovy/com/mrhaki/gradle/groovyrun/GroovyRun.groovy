@@ -4,17 +4,14 @@ import org.gradle.api.tasks.JavaExec
 
 class GroovyRun extends JavaExec {
     
+    Integer listenerPort
+    
     private static final String MAIN_CLASS = 'groovy.ui.GroovyMain'
-
+    
     GroovyRun() {
         super()
         main = MAIN_CLASS
         classpath = project.configurations[GroovyRunPlugin.CONFIGURATION_NAME]
-    }
-
-    @Override
-    void exec() {
-        super.exec()
     }
     
     void evaluate(final String script) {
@@ -26,6 +23,7 @@ class GroovyRun extends JavaExec {
     }
     
     void listenerPort(final Integer port) {
+        this.listenerPort = port
         args("-l").args(port.toString())
     }
     

@@ -10,6 +10,8 @@ class GroovyRunPlugin implements Plugin<Project> {
     
     private static final String TASK_NAME = 'runGroovyScript'
     
+    private static final String TASK_HTTP_SERVER_NAME = 'runHttpServer'
+    
     private static final String EXTENSION_NAME = 'groovyRun'
     
     private Project project
@@ -51,6 +53,7 @@ class GroovyRunPlugin implements Plugin<Project> {
     
     private void configureTask() {
         project.tasks.create TASK_NAME, GroovyRun
+        project.tasks.create TASK_HTTP_SERVER_NAME, SimpleHttpServer
     }
     
 }
