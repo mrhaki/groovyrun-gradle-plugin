@@ -77,5 +77,52 @@ class GroovyRunStructureSpec extends Specification {
         expect:
         task.args == ['-e', "println 'test'"]
     }
+    
+    def "task must set -n argument if byLine property is set"() {
+        given:
+        task.byLine = true
+        
+        expect:
+        task.args == ['-n']
+    }
 
+    def "task must set -p argument if byLine method is used"() {
+        given:
+        task.byLine true
+
+        expect:
+        task.args == ['-n']
+    }
+
+    def "task must set -p argument if byLineAndPrint property is set"() {
+        given:
+        task.byLineAndPrint = true
+
+        expect:
+        task.args == ['-p']
+    }
+
+    def "task must set -n argument if byLineAndPrint method is used"() {
+        given:
+        task.byLineAndPrint true
+
+        expect:
+        task.args == ['-p']
+    }
+
+    def "task must set -d argument if showStackTrace property is set"() {
+        given:
+        task.showStackTrace = true
+
+        expect:
+        task.args == ['-d']
+    }
+
+    def "task must set -d argument if showStackTrace method is used"() {
+        given:
+        task.showStackTrace true
+
+        expect:
+        task.args == ['-d']
+    }
 }

@@ -40,14 +40,7 @@ class GroovyRun extends JavaExec {
     
     void setListenerPort(final Integer port) {
         this.listenerPort = port
-        
-        // Listener argument must be first.
-        final List<String> oldArgs = args
-        args = []
-        args("-l").args(port.toString())
-        oldArgs?.each { arg ->
-            args(arg)
-        }
+        prependArgs("-l", listenerPort.toString())
     }
     
     void file(final File scriptFile) {
@@ -57,4 +50,35 @@ class GroovyRun extends JavaExec {
     void setFile(final File scriptFile) {
         args(scriptFile.absolutePath)
     }
+    
+    void setByLine(final boolean processByLine) {
+        prependArgs("-n")
+    }
+    
+    void byLine(final boolean processByLine) {
+        setByLine(processByLine)
+    }
+
+    void setByLineAndPrint(final boolean processByLine) {
+        prependArgs("-p")
+    }
+
+    void byLineAndPrint(final boolean processByLine) {
+        setByLineAndPrint(processByLine)
+    }
+    
+    void showStackTrace(final boolean showStackTrace) {
+        setShowStackTrace(showStackTrace)
+    }
+
+    void setShowStackTrace(final boolean showStackTrace) {
+        prependArgs('-d')
+    }
+
+    private void prependArgs(final String[] arguments) {
+        // Listener argument must be first.
+        final List<String> oldArgs = args
+        args = arguments.toList() + oldArgs
+    }
+    
 }
