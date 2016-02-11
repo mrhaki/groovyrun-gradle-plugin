@@ -102,6 +102,14 @@ class GroovyRunStructureSpec extends Specification {
         task.args == ['-p']
     }
 
+    def "task must not set -p argument if byLineAndPrint property is false"() {
+        given:
+        task.byLineAndPrint = false
+
+        expect:
+        task.args == []
+    }
+
     def "task must set -n argument if byLineAndPrint method is used"() {
         given:
         task.byLineAndPrint true
@@ -118,6 +126,14 @@ class GroovyRunStructureSpec extends Specification {
         task.args == ['-d']
     }
 
+    def "task must not set -d argument if showStackTrace property is false"() {
+        given:
+        task.showStackTrace = false
+
+        expect:
+        task.args == []
+    }
+
     def "task must set -d argument if showStackTrace method is used"() {
         given:
         task.showStackTrace true
@@ -125,4 +141,21 @@ class GroovyRunStructureSpec extends Specification {
         expect:
         task.args == ['-d']
     }
+
+    def "task must set -i argument with extension if backupExtension property is set"() {
+        given:
+        task.backupExtension = '.bak'
+
+        expect:
+        task.args == ['-i', '.bak']
+    }
+
+    def "task must set -i argument with extension if backupExtension method is used"() {
+        given:
+        task.backupExtension '.bak'
+
+        expect:
+        task.args == ['-i', '.bak']
+    }
+
 }

@@ -60,7 +60,9 @@ class GroovyRun extends JavaExec {
     }
 
     void setByLineAndPrint(final boolean processByLine) {
-        prependArgs("-p")
+        if (processByLine) {
+            prependArgs("-p")
+        }
     }
 
     void byLineAndPrint(final boolean processByLine) {
@@ -72,7 +74,17 @@ class GroovyRun extends JavaExec {
     }
 
     void setShowStackTrace(final boolean showStackTrace) {
-        prependArgs('-d')
+        if (showStackTrace) {
+            prependArgs('-d')
+        }
+    }
+    
+    void backupExtension(final String extension) {
+        setBackupExtension(extension)
+    }
+
+    void setBackupExtension(final String extension) {
+        args("-i").args(extension)
     }
 
     private void prependArgs(final String[] arguments) {
